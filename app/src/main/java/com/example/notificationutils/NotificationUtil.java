@@ -31,6 +31,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -56,12 +57,11 @@ public class NotificationUtil {
     }
 
     void getNotification(final Context context, final String title, final String desc, final String url, final String titleColor, final String desColor, RemoteMessage remoteMessage) {
-
         Bitmap bitmap;
-        bitmap = ImageCacheManager.getInstance().getBitmapFromCache(url);
-        if (bitmap != null) {
+        bitmap =  ImageCacheManager.getInstance().getBitmapFromCache(url);
+        if(bitmap!=null){
             createFullScreenNotification(context, title, desc, url, titleColor, desColor, bitmap);
-        } else {
+        }else {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
             executor.execute(() -> {
@@ -134,12 +134,16 @@ public class NotificationUtil {
     }
 
     private void createFullScreenNotification(final Context context, String title, final String desc, final String url, final String titleColor, final String desColor, Bitmap bitmap) {
-        String mStatus = "0";
-        if (title.contains("|")) {
-            String[] mData = title.split("\\|");
-            title = mData[0];
-            mStatus = mData[1];
+        String mStatus="";
+        if(title.contains("|")){
+            String[] mData =title.split("\\|");
+            title=mData[0];
+            mStatus=mData[1];
+        }else {
+            mStatus="0";
         }
+
+
 
         final int NOTIFICATION_ID = (int) System.currentTimeMillis();
         final String DEFAULT_NOTIFICATION_CHANNEL = context.getPackageName();
@@ -173,7 +177,7 @@ public class NotificationUtil {
         final RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.notification);
         Notification customNotification = null;
         remoteView.setTextViewText(R.id.notification_title, (CharSequence) title);
-        // remoteView.setTextViewText(R.id.notification_desc, (CharSequence) desc);
+       // remoteView.setTextViewText(R.id.notification_desc, (CharSequence) desc);
         if (this.isValidColor(titleColor)) {
             remoteView.setTextColor(R.id.notification_title, Color.parseColor("#" + titleColor));
         }
@@ -200,7 +204,7 @@ public class NotificationUtil {
                         .setAutoCancel(true)
                         .build();
             } else {
-                handleMediaPlayer(context, true, -1);
+                handleMediaPlayer(context, true,-1);
 
                 Log.i("notification", "SDK_VERSION: " + Build.VERSION.SDK_INT);
                 if (Build.VERSION.SDK_INT >= 31) {
@@ -231,6 +235,8 @@ public class NotificationUtil {
                             .build();
                 }
             }
+
+
         } catch (Exception ex) {
             Log.i("notification", "in Exception: ");
             //remoteView.setImageViewResource(R.id.llyNotification, R.mipmap.bg);
@@ -269,8 +275,8 @@ public class NotificationUtil {
         }
     }
 
-    public static void handleMediaPlayer(Context context, boolean isSoundPlaying, int status) {
-        Log.i("notification", "handleMediaPlayer:  isSoundPlaying :" + isSoundPlaying + "Status " + status);
+    public static void handleMediaPlayer(Context context, boolean isSoundPlaying , int status) {
+        Log.i("notification", "handleMediaPlayer:  isSoundPlaying :" + isSoundPlaying + "Status "+status);
         if (isSoundPlaying) {
             try {
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);

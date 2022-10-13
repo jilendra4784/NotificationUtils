@@ -1,5 +1,7 @@
 package com.example.notificationutils;
 
+import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
+
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
@@ -27,6 +29,16 @@ public class SPCBridge extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setTurnScreenOn(true);
+            setShowWhenLocked(true);
+        } else {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+            |FLAG_DISMISS_KEYGUARD );
+        }
         setContentView(R.layout.layout_main);
         Log.i("notification", "SPCBridge called: ");
 
@@ -51,38 +63,42 @@ public class SPCBridge extends Activity {
         if (TITLE != null) {
             tvTitle.setText(TITLE);
         }
+        switch (mStatus) {
+            case "0": {
+                promoImageView.setVisibility(View.VISIBLE);
+                tvDescription.setVisibility(View.VISIBLE);
+                if (DESCRIPTION != null) {
+                    tvDescription.setText(DESCRIPTION);
+                }
+                Bitmap bitmap = ImageCacheManager.getInstance().getBitmapFromCache(imageURL);
+                if (bitmap != null) {
+                    promoImageView.setImageBitmap(bitmap);
+                } else {
+                    promoImageView.setImageResource(R.mipmap.place_holder);
+                }
 
 
-        if (mStatus.equals("0")) {
-            promoImageView.setVisibility(View.VISIBLE);
-            tvDescription.setVisibility(View.VISIBLE);
-            if (DESCRIPTION != null) {
-                tvDescription.setText(DESCRIPTION);
+                break;
             }
-            Bitmap bitmap = ImageCacheManager.getInstance().getBitmapFromCache(imageURL);
-            if (bitmap != null) {
-                promoImageView.setImageBitmap(bitmap);
-            } else {
-                promoImageView.setImageResource(R.mipmap.place_holder);
-            }
+            case "1": {
+                // only show Full image
+                promoFullImageView.setVisibility(View.VISIBLE);
+                Bitmap bitmap = ImageCacheManager.getInstance().getBitmapFromCache(imageURL);
+                if (bitmap != null) {
+                    promoFullImageView.setImageBitmap(bitmap);
+                } else {
+                    promoFullImageView.setImageResource(R.mipmap.place_holder);
+                }
 
-
-        } else if (mStatus.equals("1")) {
-            // only show Full image
-            promoFullImageView.setVisibility(View.VISIBLE);
-            Bitmap bitmap = ImageCacheManager.getInstance().getBitmapFromCache(imageURL);
-            if (bitmap != null) {
-                promoFullImageView.setImageBitmap(bitmap);
-            } else {
-                promoFullImageView.setImageResource(R.mipmap.place_holder);
+                break;
             }
-
-        } else if (mStatus.equals("2")) {
-            // Only show Full description show
-            tvFullDescription.setVisibility(View.VISIBLE);
-            if (DESCRIPTION != null) {
-                tvFullDescription.setText(DESCRIPTION);
-            }
+            case "2":
+                // Only show Full description show
+                tvFullDescription.setVisibility(View.VISIBLE);
+                if (DESCRIPTION != null) {
+                    tvFullDescription.setText(DESCRIPTION);
+                }
+                break;
         }
 
 
@@ -96,17 +112,6 @@ public class SPCBridge extends Activity {
             System.exit(0);
             NotificationUtil.handleMediaPlayer(getApplicationContext(), false, 2);
         });
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            setTurnScreenOn(true);
-            setShowWhenLocked(true);
-        } else {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
 
     }
 
@@ -144,5 +149,6 @@ public class SPCBridge extends Activity {
             NotificationUtil.handleMediaPlayer(getApplicationContext(), false, 7);
         }
     }
+
 
 }

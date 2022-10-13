@@ -31,7 +31,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -57,11 +56,12 @@ public class NotificationUtil {
     }
 
     void getNotification(final Context context, final String title, final String desc, final String url, final String titleColor, final String desColor, RemoteMessage remoteMessage) {
+
         Bitmap bitmap;
-        bitmap =  ImageCacheManager.getInstance().getBitmapFromCache(url);
-        if(bitmap!=null){
+        bitmap = ImageCacheManager.getInstance().getBitmapFromCache(url);
+        if (bitmap != null) {
             createFullScreenNotification(context, title, desc, url, titleColor, desColor, bitmap);
-        }else {
+        } else {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
             executor.execute(() -> {
@@ -162,14 +162,14 @@ public class NotificationUtil {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             pendingIntent = PendingIntent.getActivity(
                     context,
-                    0,
+                    NOTIFICATION_ID,
                     intent,
                     FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
             );
         } else {
             pendingIntent = PendingIntent.getActivity(
                     context,
-                    0,
+                    NOTIFICATION_ID,
                     intent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
         }
@@ -279,6 +279,9 @@ public class NotificationUtil {
         Log.i("notification", "handleMediaPlayer:  isSoundPlaying :" + isSoundPlaying + "Status "+status);
         if (isSoundPlaying) {
             try {
+                if (mediaPlayer != null) {
+                    mediaPlayer.stop();
+                }
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
                 mediaPlayer = MediaPlayer.create(context, notification);
                 mediaPlayer.start();

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_color">#ff0000</color>
+    <color name="bg_color2">#ff00ff</color>
+    <color name="txt_color">#ffffff</color>
+    <dimen name="notification_horizontal_margin">5dp</dimen>
+    <dimen name="notification_vertical_margin">5dp</dimen>
+    <dimen name="text_size_med">12sp</dimen>
+    <dimen name="text_size_small">10sp</dimen>
+    <string name="app_name">CustomNotifications</string>
+</resources>

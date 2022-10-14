@@ -148,7 +148,7 @@ public class NotificationUtil {
         final int NOTIFICATION_ID = (int) System.currentTimeMillis();
         final String DEFAULT_NOTIFICATION_CHANNEL = context.getPackageName();
         this.createChannels(context, DEFAULT_NOTIFICATION_CHANNEL, desc);
-        final Intent intent = new Intent(context, com.example.notificationutils.SPCBridge.class);
+        final Intent intent = new Intent(context, SPCBridge.class);
         intent.putExtra("PUSH_TITLE", title);
         intent.putExtra("PUSH_DES", desc);
         intent.putExtra("PUSH_IMAGE_URL", url);
@@ -160,18 +160,9 @@ public class NotificationUtil {
         final PendingIntent pendingIntent;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            pendingIntent = PendingIntent.getActivity(
-                    context,
-                    NOTIFICATION_ID,
-                    intent,
-                    FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
-            );
+            pendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, intent, FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         } else {
-            pendingIntent = PendingIntent.getActivity(
-                    context,
-                    NOTIFICATION_ID,
-                    intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         final RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.notification);

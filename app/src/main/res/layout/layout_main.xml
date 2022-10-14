@@ -85,15 +85,16 @@
         android:paddingVertical="10dp">
 
 
-        <ImageView
-            android:id="@+id/btn_close_app"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:gravity="center"
-            android:src="@mipmap/close"
-            android:text="Launch App"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+         <ImageView
+             android:id="@+id/btn_close_app"
+             android:layout_width="80dp"
+             android:layout_height="80dp"
+             android:gravity="center"
+             android:text="Launch App"
+             android:textSize="20sp"
+             android:src="@mipmap/close"
+             android:textStyle="bold" />
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -105,16 +106,17 @@
             android:textStyle="bold" />
 
 
-        <ImageView
-            android:id="@+id/btn_launch_app"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentEnd="true"
-            android:gravity="center"
-            android:src="@mipmap/open"
-            android:text="Launch App"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+         <ImageView
+             android:id="@+id/btn_launch_app"
+             android:layout_width="80dp"
+             android:layout_height="80dp"
+             android:layout_alignParentEnd="true"
+             android:gravity="center"
+             android:src="@mipmap/open"
+             android:text="Launch App"
+             android:textSize="20sp"
+             android:textStyle="bold" />
+
 
         <TextView
             android:layout_width="wrap_content"

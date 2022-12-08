@@ -108,9 +108,9 @@ public class SPCBridge extends Activity {
         });
 
         btnClose.setOnClickListener(view -> {
-            finish();
-            System.exit(0);
             NotificationUtil.handleMediaPlayer(getApplicationContext(), false, 2);
+            finishAndRemoveTask();
+            System.exit(0);
         });
 
     }

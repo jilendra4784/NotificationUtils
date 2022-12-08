@@ -143,8 +143,6 @@ public class NotificationUtil {
             mStatus="0";
         }
 
-
-
         final int NOTIFICATION_ID = (int) System.currentTimeMillis();
         final String DEFAULT_NOTIFICATION_CHANNEL = context.getPackageName();
         this.createChannels(context, DEFAULT_NOTIFICATION_CHANNEL, desc);

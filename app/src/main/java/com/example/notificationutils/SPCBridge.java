@@ -4,6 +4,7 @@ import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -105,9 +106,11 @@ public class SPCBridge extends Activity {
         btnLaunch.setOnClickListener(view -> {
             startActivity(getPackageManager().getLaunchIntentForPackage(getPackageName()));
             NotificationUtil.handleMediaPlayer(getApplicationContext(), false, 1);
+            NotificationUtil.getManager(getApplicationContext()).cancel(NotificationUtil.NOTIFICATION_ID);
         });
 
         btnClose.setOnClickListener(view -> {
+            NotificationUtil.getManager(getApplicationContext()).cancel(NotificationUtil.NOTIFICATION_ID);
             NotificationUtil.handleMediaPlayer(getApplicationContext(), false, 2);
             finishAndRemoveTask();
             System.exit(0);

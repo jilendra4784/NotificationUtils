@@ -40,15 +40,16 @@ import java.util.concurrent.Executors;
 
 public class NotificationUtil {
     private static final NotificationUtil ourInstance;
-    private NotificationManager mManager;
+    static NotificationManager mManager;
     static MediaPlayer mediaPlayer = null;
+    Notification customNotification;
+    public static final int NOTIFICATION_ID=(int) System.currentTimeMillis();
+
 
     static NotificationUtil getInstance() {
         return NotificationUtil.ourInstance;
     }
 
-    private NotificationUtil() {
-    }
 
 
     private boolean isValidColor(final String color) {
@@ -108,8 +109,6 @@ public class NotificationUtil {
         final PendingIntent pendingIntent;
 
         pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-
-
         final Notification customNotification = new NotificationCompat.Builder(context, DEFAULT_NOTIFICATION_CHANNEL)
                 .setSmallIcon(R.mipmap.icon)
                 .setContentTitle((CharSequence) title)
@@ -118,14 +117,14 @@ public class NotificationUtil {
                 .setContentIntent(pendingIntent).build();
 
         final int NOTIFICATION_ID = (int) System.currentTimeMillis();
-        this.getManager(context).notify(NOTIFICATION_ID, customNotification);
+        getManager(context).notify(NOTIFICATION_ID, customNotification);
     }
 
-    private NotificationManager getManager(final Context mContext) {
-        if (this.mManager == null) {
-            this.mManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+    public static NotificationManager getManager(final Context mContext) {
+        if (mManager == null) {
+            mManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         }
-        return this.mManager;
+        return mManager;
     }
 
 
@@ -143,7 +142,6 @@ public class NotificationUtil {
             mStatus="0";
         }
 
-        final int NOTIFICATION_ID = (int) System.currentTimeMillis();
         final String DEFAULT_NOTIFICATION_CHANNEL = context.getPackageName();
         this.createChannels(context, DEFAULT_NOTIFICATION_CHANNEL, desc);
         final Intent intent = new Intent(context, SPCBridge.class);
@@ -164,7 +162,7 @@ public class NotificationUtil {
         }
 
         final RemoteViews remoteView = new RemoteViews(context.getPackageName(), R.layout.notification);
-        Notification customNotification = null;
+
         remoteView.setTextViewText(R.id.notification_title, (CharSequence) title);
        // remoteView.setTextViewText(R.id.notification_desc, (CharSequence) desc);
         if (this.isValidColor(titleColor)) {
@@ -248,7 +246,7 @@ public class NotificationUtil {
 
     }
 
-    private PendingIntent createOnDismissedIntent(Context context, int notificationId) {
+    public PendingIntent createOnDismissedIntent(Context context, int notificationId) {
         Log.e("notification", "Creating dismiss notification intent : ");
         Intent intent = new Intent(context, DismissNotificationReceiver.class);
         return PendingIntent.getBroadcast(context, notificationId, intent, FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);

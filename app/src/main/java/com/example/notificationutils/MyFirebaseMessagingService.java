@@ -32,6 +32,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.i("notification", "onMessageReceived: " + "getDefaultNotificationMethod called");
                 NotificationUtil.getInstance().getDefaultNotification(this.getApplicationContext(), remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
             } else {
+
                 Log.i("notification", "onMessageReceived:  getDataMethod called");
                 final Map<String, String> params = (Map<String, String>) remoteMessage.getData();
                 final JSONObject object = new JSONObject((Map) params);

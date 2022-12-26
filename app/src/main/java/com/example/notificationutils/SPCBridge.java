@@ -30,7 +30,7 @@ public class SPCBridge extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setTurnScreenOn(true);
             setShowWhenLocked(true);
         } else {
@@ -39,7 +39,7 @@ public class SPCBridge extends Activity {
                     | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
             |FLAG_DISMISS_KEYGUARD );
-        }
+        }*/
         setContentView(R.layout.layout_main);
         Log.i("notification", "SPCBridge called: ");
 
@@ -49,7 +49,7 @@ public class SPCBridge extends Activity {
         DESCRIPTION = getIntent().getStringExtra("PUSH_DES");
         imageURL = getIntent().getStringExtra("PUSH_IMAGE_URL");
         mStatus = getIntent().getStringExtra("STATUS");
-        Log.e("TAG", "onCreate: TITLE:" + TITLE + " ,DESCRIPTION:" + DESCRIPTION + " ," + imageURL);
+        Log.e("TAG", "onCreate: TITLE:" + TITLE + " ,DESCRIPTION:" + DESCRIPTION + " ,imageURL:" + imageURL);
 
 
         ImageView btnLaunch = findViewById(R.id.btn_launch_app);
@@ -107,6 +107,7 @@ public class SPCBridge extends Activity {
             startActivity(getPackageManager().getLaunchIntentForPackage(getPackageName()));
             NotificationUtil.handleMediaPlayer(getApplicationContext(), false, 1);
             NotificationUtil.getManager(getApplicationContext()).cancel(NotificationUtil.NOTIFICATION_ID);
+            finish();
         });
 
         btnClose.setOnClickListener(view -> {

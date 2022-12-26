@@ -62,6 +62,8 @@ public class NotificationUtil {
         bitmap = ImageCacheManager.getInstance().getBitmapFromCache(url);
         if (bitmap != null) {
             createFullScreenNotification(context, title, desc, url, titleColor, desColor, bitmap);
+        }else if(url.equals("")){
+            createFullScreenNotification(context, title, desc, url, titleColor, desColor, bitmap);
         } else {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
@@ -96,6 +98,7 @@ public class NotificationUtil {
 
                 } catch (Exception ex) {
                     Log.e("Exception", ex.toString());
+                    createFullScreenNotification(context, title, desc, url, titleColor, desColor, null);
                 }
             });
         }

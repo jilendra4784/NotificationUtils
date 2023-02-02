@@ -30,21 +30,9 @@ public class SPCBridge extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            setTurnScreenOn(true);
-            setShowWhenLocked(true);
-        } else {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                    | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-                    | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-            |FLAG_DISMISS_KEYGUARD );
-        }*/
+
         setContentView(R.layout.layout_main);
         Log.i("notification", "SPCBridge called: ");
-
-        // NotificationUtil.handleMediaPlayer(getApplicationContext(),true);
-
         TITLE = getIntent().getStringExtra("PUSH_TITLE");
         DESCRIPTION = getIntent().getStringExtra("PUSH_DES");
         imageURL = getIntent().getStringExtra("PUSH_IMAGE_URL");

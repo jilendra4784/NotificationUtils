@@ -45,13 +45,9 @@ public class NotificationUtil {
     Notification customNotification;
     public static final int NOTIFICATION_ID=(int) System.currentTimeMillis();
 
-
     static NotificationUtil getInstance() {
         return NotificationUtil.ourInstance;
     }
-
-
-
     private boolean isValidColor(final String color) {
         return !TextUtils.isEmpty((CharSequence) color);
     }
@@ -61,8 +57,6 @@ public class NotificationUtil {
         Bitmap bitmap;
         bitmap = ImageCacheManager.getInstance().getBitmapFromCache(url);
         if (bitmap != null) {
-            createFullScreenNotification(context, title, desc, url, titleColor, desColor, bitmap);
-        }else if(url.equals("")){
             createFullScreenNotification(context, title, desc, url, titleColor, desColor, bitmap);
         } else {
             ExecutorService executor = Executors.newSingleThreadExecutor();
